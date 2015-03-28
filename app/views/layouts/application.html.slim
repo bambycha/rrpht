@@ -15,7 +15,13 @@ html(lang="en")
 
   body
 
-    = yield
+    = render partial: 'layouts/header'
+
+    div.container style='margin-top: 60px'
+
+      = render partial: 'partials/notifications'
+
+      = yield
 
     /!
       | Javascripts

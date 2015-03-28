@@ -1,0 +1,7 @@
+div
+  - if notice.present?
+    div class="alert alert-dismissable alert-success"
+      = flash[:notice]
+  - if alert.present?
+    div class="alert alert-dismissable alert-warning"
+      = flash[:alert]

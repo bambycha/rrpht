@@ -1,0 +1,32 @@
+= form_for @user do |f|
+  - if @user.errors.any?
+    div#error_explanation class='alert alert-dismissable alert-danger'
+      h2 = "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      ul
+        - @user.errors.full_messages.each do |message|
+          li = message
+
+  div class="row"
+    div class="col-lg-6"
+      div class="well"
+        form class="bs-example form-horizontal"
+          fieldset
+            div class="form-group"
+              = f.label :email, for: "inputEmail", class: "col-lg-2 control-label"
+              div class="col-lg-10"
+                = f.email_field :email, class: "form-control", placeholder: "Email"
+
+            div class="form-group"
+              = f.label :password, for: "inputPassword", class: "col-lg-2 control-label"
+              div class="col-lg-10"
+                = f.password_field :password, class: "form-control", placeholder: "Password"
+
+            div class="form-group"
+              = f.label :password_confirmation, for: "inputPassword", class: "col-lg-2 control-label"
+              div class="col-lg-10"
+                = f.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation"
+
+
+            div class="form-group"
+              div class="col-lg-10 col-lg-offset-2"
+                = f.submit class: "btn btn-primary"

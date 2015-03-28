@@ -1,0 +1,24 @@
+div class="navbar navbar-default navbar-fixed-top"
+  div class="container"
+    div class="navbar-header"
+      a = link_to "PHT", root_path, class: "navbar-brand"
+
+    div class="navbar-collapse collapse"
+      ul class="nav navbar-nav"
+        li = link_to "Users", users_path
+
+      ul class="nav navbar-nav navbar-right"
+        li class="dropdown"
+          - if logged_in?
+              a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                = current_user.email
+                | <b class="caret"></b>
+              ul class="dropdown-menu"
+                li
+                  = link_to "Show my profile", user_path(current_user.id)
+                li class="divider"
+                li
+                  = link_to "Logout", logout_path
+          - else
+            a href=login_path class="dropdown-toggle"
+              | Login
