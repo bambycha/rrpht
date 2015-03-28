@@ -3,6 +3,8 @@ require 'test_helper'
 class PhotosControllerTest < ActionController::TestCase
   setup do
     @photo = photos(:one)
+    @user = users(:one)
+    login_user
   end
 
   test "should get index" do
@@ -45,5 +47,15 @@ class PhotosControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to photos_path
+  end
+
+  test "should find photo" do
+    get :search, query: "foo"
+    assert_equal assigns(:photos).first.title, 'foo'
+  end
+
+  test "should not find photo" do
+    get :search, query: "foobar"
+    assert_nil assigns(:photos).first
   end
 end

@@ -9,3 +9,8 @@ two:
   pic: MyString
   user_id: 1
   title: MyString
+
+foo:
+  pic: foo_pht
+  user_id: 100
+  title: foo

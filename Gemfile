@@ -21,10 +21,21 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem "fog"
+gem 'figaro'
+
+# ###############################
+# DB searching
+# ###############################
+
+gem 'pg_search'
+
+# ###############################
+# Image handling
+# ###############################
 
 gem 'carrierwave'
 gem "rmagick"
-gem "fog"
 
 # ###############################
 # AUTH
@@ -71,6 +82,5 @@ group :development do
   gem 'thin'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'figaro'
   gem 'quiet_assets'
 end
