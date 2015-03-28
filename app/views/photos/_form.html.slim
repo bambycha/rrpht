@@ -1,0 +1,18 @@
+= form_for @photo do |f|
+  - if @photo.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@photo.errors.count, "error")} prohibited this photo from being saved:"
+      ul
+        - @photo.errors.full_messages.each do |message|
+          li = message
+
+  .form-group
+    = f.label :title, class: 'control-label'
+    = f.text_field :title, class: 'form-control'
+  .form-group
+    = f.label :pic, class: 'control-label'
+    = f.file_field :pic, class: 'form-control'
+  .form-actions
+    = f.submit nil, class: 'btn btn-primary'
+    | &#xA0;
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), photos_path, :class => 'btn btn-default'
