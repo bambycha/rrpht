@@ -2,7 +2,11 @@ class PhotosController < ApplicationController
   before_action :set_photo, only: [:show, :edit, :update, :destroy]
 
   def search
-    @photos = Photo.text_search(params[:query])
+    if params["search"] == "tags"
+      @photos = Tag.tags_search(params[:query])
+    else
+      @photos = Photo.text_search(params[:query])
+    end
   end
 
   # GET /photos
