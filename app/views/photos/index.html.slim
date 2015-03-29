@@ -11,16 +11,18 @@ table.table.table-striped
       th= model_class.human_attribute_name(:pic)
       th= model_class.human_attribute_name(:user_id)
       th= model_class.human_attribute_name(:title)
+      th= 'Tags'
       th= model_class.human_attribute_name(:created_at)
       th=t '.actions', :default => t("helpers.actions")
     tbody
       - @photos.each do |photo|
         tr
-          td= link_to photo.id, photo_path(photo)
-          td= photo.pic_url.to_s
+          td= link_to 'Show ' + photo.id.to_s, photo_path(photo)
+          td= link_to((image_tag photo.pic.small.url.to_s), photo.pic_url)
           td= photo.user_id
           td= photo.title
-          td=l photo.created_at
+          td= raw photo.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ')
+          td= photo.created_at
           td
             = link_to t('.edit', :default => t("helpers.links.edit")), edit_photo_path(photo), :class => 'btn btn-primary btn-xs'
             | &#xA0;

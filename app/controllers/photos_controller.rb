@@ -8,7 +8,11 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def index
-    @photos = Photo.all
+    if params[:tag]
+      @photos = Photo.tagged_with(params[:tag])
+    else
+      @photos = Photo.all
+    end
   end
 
   # GET /photos/1
@@ -73,6 +77,6 @@ class PhotosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def photo_params
-      params.require(:photo).permit(:pic, :user_id, :title).merge!(user_id: current_user.id)
+      params.require(:photo).permit(:pic, :user_id, :title, :tag_list).merge!(user_id: current_user.id)
     end
 end

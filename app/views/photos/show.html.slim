@@ -6,6 +6,9 @@ p
 p
   strong User:
   = link_to "user_#{@photo.user_id}", user_path(@photo.user_id || 1)
+p
+  strong Tags:
+  = raw @photo.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ')
 
   = image_tag @photo.pic_url, style: 'height: 90vh; width: 90vw'
 
