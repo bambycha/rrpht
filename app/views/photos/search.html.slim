@@ -16,6 +16,8 @@
       | Tags
 hr
 div id="photos"
-- @photos.each do |photo|
-    p
-      = link_to photo.title, photo
+  div class="row"
+    div class="col-lg-10"
+    - @photos.each do |photo|
+      = link_to photo.pic_url, class: 'col-lg-3', 'data-toggle': 'lightbox', 'data-gallery': 'multiimages', 'data-title': photo.title
+        = image_tag photo.pic.small.url, class: 'img-responsive'
