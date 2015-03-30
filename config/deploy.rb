@@ -7,6 +7,7 @@ set :deploy_user, 'ubuntu'
 # setup repo details
 set :scm, :git
 set :repo_url, 'git@github.com:bambycha/rrpht.git'
+set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 
 set :rvm_ruby_version, 'ruby-head@rr'
 
@@ -27,7 +28,6 @@ set :tests, []
 # see documentation in lib/capistrano/tasks/setup_config.cap
 # for details of operations
 set(:config_files, %w(
-  nginx.conf
   database.yml
   unicorn.rb
   unicorn_init.sh

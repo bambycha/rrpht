@@ -4,9 +4,10 @@ default: &default
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
+  host: localhost
 
 production:
   <<: *default
   database: rr_production
   username: rr_user
-  password: <%= ENV['rr_db'] %>
+  password: CMn9bTjbW4zkgVieEdePw1p0pFWTLM
