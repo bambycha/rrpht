@@ -1,7 +1,7 @@
 div class="navbar navbar-default navbar-fixed-top"
   div class="container"
     div class="navbar-header"
-      a = link_to "PHT", root_path, class: "navbar-brand"
+      a = link_to current_tenant.name.upcase + " PHT", root_path, class: "navbar-brand"
 
     div class="navbar-collapse collapse"
       ul class="nav navbar-nav"

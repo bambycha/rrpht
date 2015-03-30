@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150329165635) do
+ActiveRecord::Schema.define(version: 20150329212249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(version: 20150329165635) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "tenant_id"
   end
 
+  add_index "photos", ["tenant_id"], name: "index_photos_on_tenant_id", using: :btree
   add_index "photos", ["title"], name: "index_photos_on_title", using: :btree
 
   create_table "taggings", force: :cascade do |t|
@@ -36,13 +38,25 @@ ActiveRecord::Schema.define(version: 20150329165635) do
     t.integer  "photo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "tenant_id"
   end
 
   add_index "taggings", ["photo_id"], name: "index_taggings_on_photo_id", using: :btree
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["tenant_id"], name: "index_taggings_on_tenant_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "tenant_id"
+  end
+
+  add_index "tags", ["tenant_id"], name: "index_tags_on_tenant_id", using: :btree
+
+  create_table "tenants", force: :cascade do |t|
+    t.string   "name"
+    t.string   "subdomain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -53,9 +67,11 @@ ActiveRecord::Schema.define(version: 20150329165635) do
     t.string   "salt"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tenant_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["tenant_id"], name: "index_users_on_tenant_id", using: :btree
 
   add_foreign_key "taggings", "photos"
   add_foreign_key "taggings", "tags"

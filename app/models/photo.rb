@@ -1,6 +1,8 @@
 class Photo < ActiveRecord::Base
   belongs_to :user
 
+  default_scope { where(tenant_id: Tenant.current_id) }
+
   mount_uploader :pic, PicUploader
 
   include PgSearch

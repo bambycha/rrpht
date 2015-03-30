@@ -2,6 +2,8 @@ class Tag < ActiveRecord::Base
   has_many :taggings
   has_many :photos, through: :taggings
 
+  default_scope { where(tenant_id: Tenant.current_id)}
+
   include PgSearch
   pg_search_scope :search_name, against: :name
 
