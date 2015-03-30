@@ -1,0 +1,62 @@
+namespace :deploy do
+  desc <<-DESC
+    Setup config files for deployment.
+    Load files. Setup permission flag.
+    Link files to necessary location.
+    Make template files.
+  DESC
+  task :setup do
+    on roles(:app) do
+      # make the config dir
+      execute :mkdir, "-p #{shared_path}/config"
+      full_app_name = fetch(:full_app_name)
+
+      # config files to be uploaded to shared/config, see the
+      # definition of smart_template for details of operation.
+      # Essentially looks for #{filename}.erb in deploy/#{full_app_name}/
+      # and if it isn't there, falls back to deploy/#{shared}. Generally
+      # everything should be in deploy/shared with params which differ
+      # set in the stage files
+      config_files = fetch(:config_files)
+      config_files.each do |file|
+        smart_template file
+      end
+
+      # which of the above files should be marked as executable
+      executable_files = fetch(:executable_config_files)
+      executable_files.each { |file| execute sudo_command + "chmod +x #{shared_path}/config/#{file}" } unless executable_files.nil?
+
+      # symlink stuff which should be... symlinked
+      symlinks = fetch(:symlinks)
+      symlinks.each { |symlink| execute sudo_command + "ln -nfs #{shared_path}/config/#{symlink[:source]} #{sub_strings(symlink[:link])}" } unless symlinks.nil?
+    end
+  end
+
+end
+
+namespace :sudo do
+  desc 'Ask for sudo password'
+  task :ask_password do
+    on roles(:all) do
+      set :password, ask("your server sudo password", nil)
+      password = fetch(:password)
+      puts 'Checking password'
+      if 'true' == capture("echo #{password} | sudo -kS echo true").split(' ')[-1].strip
+        set :sudo_password, password
+        set :sudo_command, "echo #{password} | sudo -kS "
+        puts "Password correct"
+      else
+        raise "Password incorrect"
+      end
+    end
+  end
+
+    def sudo_command
+    sudo_command = fetch(:sudo_command)
+    if !sudo_command
+      invoke "sudo:ask_password"
+      sudo_command = fetch(:sudo_command)
+    end
+    return sudo_command
+  end
+end
